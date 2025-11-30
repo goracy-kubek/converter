@@ -12,6 +12,6 @@ func NewLinkSettings() fyne.CanvasObject {
 	return container.NewBorder(
 		widget.NewLabel("Links settings"),
 		nil, nil, nil,
-		cwidget.LinkList(),
+		cwidget.UriList(),
 	)
 }

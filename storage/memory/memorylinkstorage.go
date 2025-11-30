@@ -1,4 +1,4 @@
-package memorystorage
+package memory
 
 type MemoryLinkStorage struct {
 	storage []string

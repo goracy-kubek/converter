@@ -16,14 +16,12 @@ var currentUri = ""
 var pathEntry *widget.Entry
 var list *widget.List
 
-func LinkList() fyne.CanvasObject {
-	linkListV := container.NewBorder(
+func UriList() fyne.CanvasObject {
+	return container.NewBorder(
 		addForm(),
 		nil, nil, nil,
 		listWidget(),
 	)
-
-	return linkListV
 }
 
 func addForm() fyne.CanvasObject {
@@ -35,8 +33,18 @@ func addForm() fyne.CanvasObject {
 }
 
 func folderSelector() fyne.CanvasObject {
+	return container.NewBorder(
+		nil, 
+		nil, 
+		nil,
+		browseButton("Browse"), 
+		pathWidget("Choose folder..."),
+	)
+}
+
+func pathWidget(label string) *widget.Entry {
 	pathEntry = widget.NewEntry()
-	pathEntry.SetPlaceHolder("Choose folder...")
+	pathEntry.SetPlaceHolder(label)
 
 	pathEntry.OnChanged = func(s string) {
 		if len(s) != 0 {
@@ -44,7 +52,11 @@ func folderSelector() fyne.CanvasObject {
 		}
 	}
 
-	selectButton := widget.NewButton("Browse", func() {
+	return pathEntry
+}
+
+func browseButton(label string) *widget.Button {
+	return widget.NewButton(label, func() {
 		dialog.ShowFolderOpen(func(uri fyne.ListableURI, err error) {
 			if err == nil && uri != nil {
 				pathEntry.SetText(uri.Path())
@@ -52,8 +64,6 @@ func folderSelector() fyne.CanvasObject {
 			}
 		}, global.GetWindow())
 	})
-
-	return container.NewBorder(nil, nil, nil, selectButton, pathEntry)
 }
 
 func addButton() fyne.CanvasObject {
@@ -83,7 +93,7 @@ func newDeleteButton() *widget.Button {
 }
 
 func listWidget() fyne.CanvasObject {
-	list = widget.NewList(
+	return widget.NewList(
 		func() int {
 			return currentStorage.GetCount()
 		},
@@ -111,6 +121,4 @@ func listWidget() fyne.CanvasObject {
 				list.Refresh()
 			}
 		})
-
-	return list
 }

@@ -1,9 +1,6 @@
 package storage
 
-import mapstorage "converter/storage/memorystorage"
-
-// var storage = mapstorage.NewMemoryStorage()
-var linkstorage = mapstorage.NewMemoryLinkStorage()
+import memory "converter/storage/memory"
 
 type LinkStorage interface {
 	GetCount() int
@@ -20,5 +17,5 @@ type Storage interface {
 }
 
 func GetLinkStorage() LinkStorage {
-	return linkstorage
+	return memory.NewMemoryLinkStorage()
 }

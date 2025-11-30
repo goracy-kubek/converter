@@ -15,7 +15,7 @@ func NewSettingsPage(window fyne.Window) fyne.CanvasObject {
 	settingsContainer = container.NewStack(settings.NewLinkSettings())
 
 	return container.NewBorder(
-		container.NewHBox(backButton(window), newLabel()),
+		container.NewHBox(backButton(window), newLabel("Settings")),
 		nil,
 		settingsElements(),
 		nil,
@@ -31,10 +31,10 @@ func settingsElements() fyne.CanvasObject {
 
 		var newPage fyne.CanvasObject
 		switch value {
-		case options[0]:
-			newPage = settings.NewLinkSettings()
-		case options[1]:
-			newPage = settings.NewRuleSettings()
+			case options[0]:
+				newPage = settings.NewLinkSettings()
+			case options[1]:
+				newPage = settings.NewRuleSettings()
 		}
 
 		settingsContainer.Objects = []fyne.CanvasObject{newPage}
@@ -46,8 +46,8 @@ func settingsElements() fyne.CanvasObject {
 	return group
 }
 
-func newLabel() *widget.Label {
-	currWidget := widget.NewLabel("Settings")
+func newLabel(label string) *widget.Label {
+	currWidget := widget.NewLabel(label)
 
 	currWidget.Move(fyne.NewPos(50, 0))
 
