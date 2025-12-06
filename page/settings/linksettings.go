@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"converter/storage"
 	"converter/view/cwidget"
 
 	"fyne.io/fyne/v2"
@@ -12,6 +13,6 @@ func NewLinkSettings() fyne.CanvasObject {
 	return container.NewBorder(
 		widget.NewLabel("Links settings"),
 		nil, nil, nil,
-		cwidget.UriList(),
+		cwidget.NewUriList(storage.GetLinkStorage()),
 	)
 }

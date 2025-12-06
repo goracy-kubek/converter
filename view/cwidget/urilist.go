@@ -11,16 +11,19 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var currentStorage = storage.GetLinkStorage()
+
+var globalListWidget *widget.List = listWidget()
+var currentStorage storage.LinkStorage
 var currentUri = ""
 var pathEntry *widget.Entry
-var list *widget.List
 
-func UriList() fyne.CanvasObject {
+func NewUriList(storage storage.LinkStorage) fyne.CanvasObject {
+	currentStorage = storage
+
 	return container.NewBorder(
 		addForm(),
 		nil, nil, nil,
-		listWidget(),
+		globalListWidget,
 	)
 }
 
@@ -77,7 +80,7 @@ func addButton() fyne.CanvasObject {
 		currentUri = ""
 
 		pathEntry.SetText(currentUri)
-		list.Refresh()
+		globalListWidget.Refresh()
 	})
 
 	button.Importance = widget.HighImportance
@@ -92,8 +95,10 @@ func newDeleteButton() *widget.Button {
 	return button
 }
 
-func listWidget() fyne.CanvasObject {
-	return widget.NewList(
+func listWidget() *widget.List {
+	var localList *widget.List
+
+	localList = widget.NewList(
 		func() int {
 			return currentStorage.GetCount()
 		},
@@ -118,7 +123,9 @@ func listWidget() fyne.CanvasObject {
 
 			button.OnTapped = func() {
 				currentStorage.Delete(i)
-				list.Refresh()
+				localList.Refresh()
 			}
 		})
+
+	return localList
 }
